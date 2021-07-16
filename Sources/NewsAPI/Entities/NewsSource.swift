@@ -1,20 +1,25 @@
 import Foundation
 
-public struct NewsSourceResponse: Decodable {
-  public enum Status: String, Decodable {
-    case ok, error
-  }
-  public let status: Status
-  public let sources: [NewsSource]
+public struct NewsSource: Decodable, Identifiable {
+  public let id: String?
+  public let name: String
+  public let description: String?
+  public let url: URL?
+  public let category: NewsSourceCategory?
+  public let language: Language?
+  public let country: Country?
 }
 
-public struct NewsSource: Decodable, Identifiable {
-  public let id: String
-  public let name: String
-  public let description: String
-  public let url: URL
-  public let category: NewsSourceCategory
-  public let country: String // TODO
+extension NewsSource: Equatable {
+  public static func == (lhs: NewsSource, rhs: NewsSource) -> Bool {
+    lhs.id == rhs.id
+    && lhs.name == rhs.name
+    && lhs.description == rhs.description
+    && lhs.url == rhs.url
+    && lhs.category == rhs.category
+    && lhs.language == rhs.language
+    && lhs.country == rhs.country
+  }
 }
 
 #if DEBUG
@@ -23,9 +28,10 @@ extension NewsSource {
     id: "abc-news",
     name: "ABC News",
     description: "Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com.",
-    url: URL(string: "https://abcnews.go.com")!,
-    category: .business,
-    country: "us"
+    url: URL(string: "https://abcnews.go.com"),
+    category: .general,
+    language: .en,
+    country: .us
   )
 }
 #endif
