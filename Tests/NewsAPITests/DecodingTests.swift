@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import NewsAPI
+@testable import NewsAPI
 
 final class DecodingTests: XCTestCase {
 
