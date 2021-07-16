@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  DecodingTests.swift
 //  
 //
 //  Created by Fumiya Yamanaka on 2021/07/15.
@@ -12,26 +12,28 @@ final class DecodingTests: XCTestCase {
 
   func testDecodingArticleResponse() {
     do {
+      let expected: NewsArticle = .demo
       let decoder = JSONDecoder()
       decoder.dateDecodingStrategy = .iso8601
       let response = try decoder.decode(NewsArticle.self, from: articleResponseJson.data(using: .utf8)!)
-      assert(response == NewsArticle.demo)
+      XCTAssertEqual(response, expected)
     } catch {
       print(String(describing: error))
-      assertionFailure(error.localizedDescription)
+      XCTFail(error.localizedDescription)
     }
   }
 
-  func testDecodingNewsSource() {
-    let response = try? JSONDecoder().decode(NewsSource.self, from: newsSourceJson.data(using: .utf8)!)
-    assert(response == NewsSource.demo)
+  func testDecodingNewsSource() throws {
+    let expected: NewsSource = .demo
+    let response = try XCTUnwrap(JSONDecoder().decode(NewsSource.self, from: newsSourceJson.data(using: .utf8)!))
+    XCTAssertEqual(response, expected)
   }
 
-  func testDecodingErrorAPIResponse() {
-    let response = try? JSONDecoder().decode(ErrorResponse.self, from: errorResponseJson.data(using: .utf8)!)
-
-    assert(response?.code == .apiKeyMissing)
-    assert(response?.message == "Your API key is missing. Append this to the URL with the apiKey param, or use the x-api-key HTTP header.")
+  func testDecodingErrorAPIResponse() throws {
+    let response = try XCTUnwrap(JSONDecoder().decode(ErrorResponse.self, from: errorResponseJson.data(using: .utf8)!))
+    let expectedMessage = "Your API key is missing. Append this to the URL with the apiKey param, or use the x-api-key HTTP header."
+    XCTAssertEqual(response.code, .apiKeyMissing)
+    XCTAssertEqual(response.message, expectedMessage)
   }
 }
 
