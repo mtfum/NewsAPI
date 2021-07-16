@@ -1,3 +1,10 @@
+//
+//  NewsAPITests.swift
+//
+//
+//  Created by Fumiya Yamanaka on 2021/07/15.
+//
+
 import XCTest
 @testable import NewsAPI
 
