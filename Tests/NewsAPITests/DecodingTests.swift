@@ -10,22 +10,18 @@ import NewsAPI
 
 final class DecodingTests: XCTestCase {
 
-  func testDecodingArticleResponse() {
-    do {
-      let expected: NewsArticle = .demo
-      let decoder = JSONDecoder()
-      decoder.dateDecodingStrategy = .iso8601
-      let response = try decoder.decode(NewsArticle.self, from: articleResponseJson.data(using: .utf8)!)
-      XCTAssertEqual(response, expected)
-    } catch {
-      print(String(describing: error))
-      XCTFail(error.localizedDescription)
-    }
+  func testDecodingArticleResponse() throws {
+    let expected: NewsArticle = .demo
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601
+    let response = try XCTUnwrap(decoder.decode(NewsArticle.self, from: articleResponseJson.data(using: .utf8)!))
+    XCTAssertEqual(response, expected)
   }
 
   func testDecodingNewsSource() throws {
     let expected: NewsSource = .demo
-    let response = try XCTUnwrap(JSONDecoder().decode(NewsSource.self, from: newsSourceJson.data(using: .utf8)!))
+    let decoder = JSONDecoder()
+    let response = try XCTUnwrap(decoder.decode(NewsSource.self, from: newsSourceJson.data(using: .utf8)!))
     XCTAssertEqual(response, expected)
   }
 
