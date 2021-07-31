@@ -30,17 +30,31 @@ let client = NewsAPI(apiKey: "YOUR_API_KEY")
 ### Get Sources
 
 ```Swift
-let articles = try await client.getSources()
+let articles = try await client.getSources(
+    sources: [String] = [], // abc-news, bbc-news, etc...
+    query: String? = nil,
+    category: NewsSourceCategory? = nil,
+    language: Language = Language.en
+)
 ```
 
 ### Search
 
 ```Swift
-let articles = try await client.search(query: "bitcoin")
+let articles = try await client.search(
+  query: "",
+  sources: [String] = [],
+  sortBy: SortBy? = nil, // relevancy, popularity, publishedAt
+  language: Language? = nil
+)
 ```
 
 ### Top-Headlines
 
 ```Swift
-let articles = try await client.getTopHeadlines()
+let articles = try await client.getTopHeadlines(
+  category: NewsSourceCategory? = nil,
+  language: Language? = nil,
+  country: Country? = nil
+)
 ```
