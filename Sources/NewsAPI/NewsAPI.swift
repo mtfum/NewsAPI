@@ -1,6 +1,6 @@
 import Foundation
 
-public actor NewsAPI {
+public final class NewsAPI {
 
   private let apiKey: String
   private let session: URLSession
