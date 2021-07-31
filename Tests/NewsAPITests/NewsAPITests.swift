@@ -40,4 +40,13 @@ final class NewsAPITests: XCTestCase {
       XCTFail(String(describing: error))
     }
   }
+
+  func testSearchWithSourcesAndSortBy() async throws {
+    do {
+      let articles = try await client.search(query: "olympics", sources: ["bbc-news"], sortBy: .popularity)
+      XCTAssertTrue(!articles.isEmpty)
+    } catch {
+      XCTFail(String(describing: error))
+    }
+  }
 }

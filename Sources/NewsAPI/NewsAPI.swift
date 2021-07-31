@@ -41,12 +41,11 @@ public actor NewsAPI {
 
   public func search(
     query: String,
-    sources: [NewsSource] = [],
-    category: NewsSourceCategory? = nil,
-    language: Language? = nil,
-    country: Country? = nil
+    sources: [String] = [],
+    sortBy: SortBy? = nil,
+    language: Language? = nil
   ) async throws -> [NewsArticle] {
-    guard let url = Endpoint.search(key: apiKey, query: query, sources: sources, category: category, language: language, country: country).url else {
+    guard let url = Endpoint.search(key: apiKey, query: query, sources: sources, sortBy: sortBy, language: language).url else {
       throw ErrorResponse.invalidURL
     }
     do {
@@ -63,8 +62,12 @@ public actor NewsAPI {
     }
   }
 
-  public func getSources() async throws -> [NewsSource] {
-    guard let url = Endpoint.sources(key: apiKey).url else {
+  public func getSources(
+    category: NewsSourceCategory? = nil,
+    language: Language? = nil,
+    country: Country? = nil
+  ) async throws -> [NewsSource] {
+    guard let url = Endpoint.sources(key: apiKey, category: category, language: language, country: country).url else {
       throw ErrorResponse.invalidURL
     }
     do {

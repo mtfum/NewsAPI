@@ -21,27 +21,25 @@ extension Endpoint {
   static func search(
     key: String,
     query: String,
-    sources: [NewsSource] = [],
-    category: NewsSourceCategory? = nil,
-    language: Language? = nil,
-    country: Country? = nil
+    sources: [String] = [],
+    sortBy: SortBy? = nil,
+    language: Language? = nil
   ) -> Self {
     return .init(
       path: "everything",
       queryItems: [
         URLQueryItem(name: "apiKey", value: key),
         URLQueryItem(name: "q", value: query),
-        URLQueryItem(name: "category", value: category?.rawValue),
-        URLQueryItem(name: "sources", value: sources.map(\.name).joined(separator: ",")),
-        URLQueryItem(name: "language", value: language?.rawValue),
-        URLQueryItem(name: "country", value: country?.rawValue)
+        URLQueryItem(name: "sources", value: sources.joined(separator: ",")),
+        URLQueryItem(name: "sortBy", value: sortBy?.rawValue),
+        URLQueryItem(name: "language", value: language?.rawValue)
       ])
   }
 
   static func topHeadlines(
     key: String,
     query: String? = nil,
-    sources: [NewsSource] = [],
+    sources: [String] = [],
     category: NewsSourceCategory? = nil,
     country: Country? = nil,
     language: Language? = nil
@@ -51,6 +49,7 @@ extension Endpoint {
       queryItems: [
         URLQueryItem(name: "apiKey", value: key),
         URLQueryItem(name: "q", value: query),
+        URLQueryItem(name: "sources", value: sources.joined(separator: ",")),
         URLQueryItem(name: "category", value: category?.rawValue),
         URLQueryItem(name: "country", value: country?.rawValue),
         URLQueryItem(name: "language", value: language?.rawValue)
