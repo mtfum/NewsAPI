@@ -23,6 +23,15 @@ final class NewsAPITests: XCTestCase {
     }
   }
 
+  func testGetTopHeadlinesWithSources() async throws {
+    do {
+      let articles = try await client.getTopHeadlines(sources: ["abc-news", "bbc-news"])
+      XCTAssertTrue(!articles.isEmpty)
+    } catch {
+      XCTFail(String(describing: error))
+    }
+  }
+
   func testGetSources() async throws {
     do {
       let sources = try await client.getSources()

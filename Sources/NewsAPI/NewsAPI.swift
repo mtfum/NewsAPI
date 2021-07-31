@@ -17,12 +17,12 @@ public actor NewsAPI {
   }
 
   public func getTopHeadlines(
-    sources: [NewsSource] = [],
+    sources: [String] = [],
     query: String? = nil,
     category: NewsSourceCategory? = nil,
     language: Language = Language.en
   ) async throws -> [NewsArticle] {
-    guard let url = Endpoint.topHeadlines(key: apiKey, query: query, category: category, language: language).url else {
+    guard let url = Endpoint.topHeadlines(key: apiKey, query: query, sources: sources, category: category, language: language).url else {
       throw ErrorResponse.invalidURL
     }
     do {
